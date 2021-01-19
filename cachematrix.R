@@ -1,15 +1,36 @@
-## Put comments here that give an overall description of what your
-## functions do
+## KMMCruz
+## Assignment: Caching the Inverse Matrix
+## To design and formulate functions that can help in the computation of Matrix Inversion.
 
-## Write a short comment describing this function
+#Assignment: Caching the Inverse of a Matrix
 
-makeCacheMatrix <- function(x = matrix()) {
-
+makeCacheMatrix <- function(m = matrix()) {
+      x <- NULL
+      put <- function(s) {
+           m <<- s
+           x <<- NULL
+      }
+      turn <- function() m
+      putinverse <- function(inverse) x<<- inverse
+      turninverse <- function () x
+      list(put = put,
+           turn = turn,
+           putinverse = putinverse,
+           turninverse = turninverse)
 }
 
+## The function computes the inverse of the matrix, which is returned by makeCahceMatrix.
 
-## Write a short comment describing this function
-
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+cacheSolve <- function(m, ...) {
+     x <- m$turninverse()
+     if (!is.null(x)) {
+          message("Turning Cached Data.")
+          return(x)
+     }
+     data <- m$turn()
+     x <- solve(data, ...)
+     m$putinverse(x)
+     x
 }
+
+## The function assigned to cacheSolving should retrieve the inverse from the cache once calculated.
